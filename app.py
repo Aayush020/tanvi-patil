@@ -185,6 +185,15 @@ def properties_page():
     cur.close()
     db.close()
     return render_template("properties.html", properties=properties)
+@app.route("/test-mail")
+def test_mail():
+    msg = Message("Test Email", recipients=[app.config['MAIL_USERNAME']])
+    msg.body = "If you receive this, mail works!"
+    try:
+        mail.send(msg)
+        return "✅ Mail sent!"
+    except Exception as e:
+        return f"❌ Mail error: {e}"
 
 @app.route("/properties/add", methods=["GET", "POST"])
 def add_property():
